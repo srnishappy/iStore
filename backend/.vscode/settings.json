@@ -1,0 +1,9 @@
+{
+  "prisma-smart-formatter.prisma.defaultFormatter": "Prisma.prisma",
+  "editor.formatOnSave": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  }
+}
