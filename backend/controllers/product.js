@@ -28,6 +28,7 @@ exports.create = async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 };
+
 exports.list = async (req, res) => {
   try {
     const { count } = req.params;
@@ -40,10 +41,9 @@ exports.list = async (req, res) => {
       },
     });
     res.send(products);
-    console.log(count);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ msg: 'Server Error' });
+    res.status(500).json({ message: 'Server error' });
   }
 };
 exports.remove = async (req, res) => {
