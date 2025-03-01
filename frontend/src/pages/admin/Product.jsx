@@ -1,4 +1,10 @@
+import FormProduct from '../../components/admin/FormProduct';
+
 const Product = () => {
-  return <div>Product</div>;
+  return (
+    <div>
+      <FormProduct />
+    </div>
+  );
 };
 export default Product;

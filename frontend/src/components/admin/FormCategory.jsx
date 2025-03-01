@@ -11,20 +11,13 @@ import Swal from 'sweetalert2';
 const FormCategory = () => {
   const token = ecomstore((state) => state.token);
   const [name, setName] = useState('');
-  const [category, setCategory] = useState([]);
+  // const [category, setCategory] = useState([]);
+  const category = ecomstore((state) => state.category);
+  const getCategory = ecomstore((state) => state.getCategory);
 
   useEffect(() => {
     getCategory(token);
   }, []);
-
-  const getCategory = async (token) => {
-    try {
-      const res = await ListCategory(token);
-      setCategory(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,7 +104,10 @@ const FormCategory = () => {
 
       <ul className="divide-y divide-gray-300">
         {category.map((item) => (
-          <li className="flex justify-between items-center py-2" key={item._id}>
+          <li
+            className="flex justify-between items-center py-2"
+            key={item.id || item._id}
+          >
             <span className="text-gray-700 font-medium">{item.name}</span>
             <button
               className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
