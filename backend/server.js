@@ -5,7 +5,7 @@ const { readdirSync } = require('fs');
 const cors = require('cors');
 app.use(morgan('dev'));
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '20mb' }));
 
 readdirSync('./routes').map((item) =>
   app.use('/api', require('./routes/' + item))
