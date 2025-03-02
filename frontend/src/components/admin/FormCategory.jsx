@@ -81,43 +81,60 @@ const FormCategory = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-        Category Management
+    <div className="container mx-auto p-8 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-xl rounded-xl max-w-lg border border-gray-200">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+          Category Management
+        </span>
       </h1>
 
-      <form className="mb-6 flex gap-2" onSubmit={handleSubmit}>
+      <form className="mb-8 flex gap-3" onSubmit={handleSubmit}>
         <input
           onChange={(e) => setName(e.target.value)}
           value={name}
           type="text"
           placeholder="Enter category name"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
         />
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 shadow-md font-medium"
           type="submit"
         >
           Add
         </button>
       </form>
 
-      <ul className="divide-y divide-gray-300">
-        {category.map((item) => (
-          <li
-            className="flex justify-between items-center py-2"
-            key={item.id || item._id}
-          >
-            <span className="text-gray-700 font-medium">{item.name}</span>
-            <button
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
-              onClick={() => handleDelete(item.id)}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="bg-white rounded-lg shadow-md p-4 border border-gray-100">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4 border-b border-gray-200 pb-2">
+          Available Categories
+        </h2>
+        {category.length === 0 ? (
+          <p className="text-gray-500 text-center py-4 italic">
+            No categories found. Add your first category above.
+          </p>
+        ) : (
+          <ul className="divide-y divide-gray-200">
+            {category.map((item) => (
+              <li
+                className="flex justify-between items-center py-3 px-2 hover:bg-gray-50 rounded-md transition duration-150"
+                key={item.id || item._id}
+              >
+                <span className="text-gray-800 font-medium">{item.name}</span>
+                <button
+                  className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-md hover:from-red-600 hover:to-pink-600 transition duration-300 shadow-sm text-sm font-medium"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="mt-6 text-center text-sm text-gray-500">
+        <p>Total categories: {category.length}</p>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,14 @@ import ecomstore from '../../store/ecom-store';
 import { createProduct } from '../../api/Product';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { FaSave } from 'react-icons/fa';
+import {
+  FaSave,
+  FaEdit,
+  FaTrash,
+  FaBox,
+  FaShoppingCart,
+  FaTags,
+} from 'react-icons/fa';
 import UploadFile from './UploadFile';
 
 const FormProduct = () => {
@@ -60,148 +67,214 @@ const FormProduct = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg w-full">
+    <div className="container mx-auto py-8 px-4">
       {/* ฟอร์มเพิ่มสินค้า */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-          Add New Product
-        </h1>
+      <div className="bg-white shadow-lg rounded-xl overflow-hidden mb-8 border border-gray-100">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-400 px-6 py-4">
+          <h1 className="text-2xl font-bold text-white flex items-center">
+            <FaBox className="mr-3" /> Add New Product
+          </h1>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Title
-            </label>
-            <input
-              name="title"
-              type="text"
-              placeholder="Enter product title"
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-              value={form.title}
-              onChange={handleOnChange}
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Product Title <span className="text-red-500">*</span>
+              </label>
+              <input
+                name="title"
+                type="text"
+                placeholder="Enter product title"
+                className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-700"
+                value={form.title}
+                onChange={handleOnChange}
+                required
+              />
+            </div>
 
-          <div className="p-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Description
-            </label>
-            <textarea
-              name="description"
-              placeholder="Enter product description"
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-              value={form.description}
-              onChange={handleOnChange}
-            />
-          </div>
-
-          <div className="p-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Price (฿)
-            </label>
-            <input
-              name="price"
-              type="number"
-              placeholder="Enter product price"
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-              value={form.price}
-              onChange={handleOnChange}
-            />
-          </div>
-
-          <div className="p-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quantity
-            </label>
-            <input
-              name="quantity"
-              type="number"
-              placeholder="Enter product quantity"
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-              value={form.quantity}
-              onChange={handleOnChange}
-            />
-          </div>
-
-          <div className="p-3">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category
-            </label>
-            <select
-              name="categoryId"
-              onChange={handleOnChange}
-              value={form.categoryId}
-              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-            >
-              <option value="" disabled>
-                Please Select
-              </option>
-              {category.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Category <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="categoryId"
+                onChange={handleOnChange}
+                value={form.categoryId}
+                className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-700"
+                required
+              >
+                <option value="" disabled>
+                  Please Select Category
                 </option>
-              ))}
-            </select>
+                {category.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Product Description
+              </label>
+              <textarea
+                name="description"
+                placeholder="Enter product description"
+                rows="4"
+                className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-700"
+                value={form.description}
+                onChange={handleOnChange}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Price (฿) <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">฿</span>
+                </div>
+                <input
+                  name="price"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  className="border border-gray-300 p-3 pl-8 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-700"
+                  value={form.price}
+                  onChange={handleOnChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Quantity <span className="text-red-500">*</span>
+              </label>
+              <input
+                name="quantity"
+                type="number"
+                placeholder="Enter product quantity"
+                className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-700"
+                value={form.quantity}
+                onChange={handleOnChange}
+                required
+              />
+            </div>
+          </div>
+
+          <UploadFile form={form} setForm={setForm} />
+
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white py-3 px-6 rounded-lg w-full hover:bg-blue-700 transition-all shadow-md flex items-center justify-center font-medium"
+            >
+              <FaSave className="mr-2 text-lg" /> Add Product
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* รายการสินค้า */}
+      <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+        <div className="bg-gradient-to-r from-indigo-600 to-indigo-400 px-6 py-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-white flex items-center">
+            <FaShoppingCart className="mr-3" /> Product List
+          </h2>
+          <div className="text-white text-sm bg-indigo-700 px-3 py-1 rounded-full">
+            {products.length} products
           </div>
         </div>
 
-        <UploadFile form={form} setForm={setForm} />
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600 transition transform hover:scale-105 text-sm"
-        >
-          <FaSave className="inline-block mr-2" /> Add Product
-        </button>
-      </form>
-
-      <hr className="my-8" />
-
-      {/* รายการสินค้า */}
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        Product List
-      </h2>
-
-      <div className="w-full">
-        <table className="w-full table-auto border-collapse border border-gray-300">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border-b px-4 py-3 text-left">#</th>
-              <th className="border-b px-4 py-3 text-left">Title</th>
-              <th className="border-b px-4 py-3 text-left">Description</th>
-              <th className="border-b px-4 py-3 text-left">Price (฿)</th>
-              <th className="border-b px-4 py-3 text-left">Qty</th>
-              <th className="border-b px-4 py-3 text-left">Sold</th>
-              <th className="border-b px-4 py-3 text-left">Updated At</th>
-              <th className="border-b px-4 py-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((item, index) => (
-              <tr key={item.id} className="hover:bg-gray-100">
-                <td className="border-b px-4 py-2">{index + 1}</td>
-                <td className="border-b px-4 py-2">{item.title || '-'}</td>
-                <td className="border-b px-4 py-2">
-                  {item.description || '-'}
-                </td>
-                <td className="border-b px-4 py-2">{item.price}฿</td>
-                <td className="border-b px-4 py-2">{item.quantity}</td>
-                <td className="border-b px-4 py-2">{item.sold}</td>
-                <td className="border-b px-4 py-2">
-                  {new Date(item.updatedAt).toLocaleString()}
-                </td>
-                <td className="border-b px-4 py-2">
-                  <button className="bg-yellow-500 text-white px-3 py-1 rounded mr-2">
-                    Edit
-                  </button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded">
-                    Delete
-                  </button>
-                </td>
+        <div className="p-6 overflow-x-auto">
+          <table className="w-full table-auto border-collapse">
+            <thead>
+              <tr className="bg-gray-50 text-gray-600 text-sm leading-normal">
+                <th className="py-3 px-4 text-left font-semibold">#</th>
+                <th className="py-3 px-4 text-left font-semibold">Title</th>
+                <th className="py-3 px-4 text-left font-semibold">
+                  Description
+                </th>
+                <th className="py-3 px-4 text-left font-semibold">Price (฿)</th>
+                <th className="py-3 px-4 text-left font-semibold">Qty</th>
+                <th className="py-3 px-4 text-left font-semibold">Sold</th>
+                <th className="py-3 px-4 text-left font-semibold">
+                  Updated At
+                </th>
+                <th className="py-3 px-4 text-left font-semibold">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-gray-600 text-sm">
+              {products.length > 0 ? (
+                products.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className="border-b border-gray-200 hover:bg-gray-50 transition-all"
+                  >
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4 font-medium">
+                      {item.title || '-'}
+                    </td>
+                    <td className="py-3 px-4 max-w-xs truncate">
+                      {item.description || '-'}
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="bg-blue-50 text-blue-600 py-1 px-2 rounded-lg font-medium">
+                        ฿
+                        {Number(item.price).toLocaleString('th-TH', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">{item.quantity}</td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={`py-1 px-2 rounded-lg font-medium ${
+                          item.sold > 0
+                            ? 'bg-green-50 text-green-600'
+                            : 'bg-gray-50 text-gray-600'
+                        }`}
+                      >
+                        {item.sold}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-gray-500">
+                      {new Date(item.updatedAt).toLocaleString('th-TH', {
+                        dateStyle: 'short',
+                        timeStyle: 'short',
+                      })}
+                    </td>
+                    <td className="py-3 px-4 flex space-x-1">
+                      <button
+                        className="bg-amber-500 text-white p-2 rounded-lg hover:bg-amber-600 transition-all"
+                        title="Edit"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all"
+                        title="Delete"
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={8} className="py-6 text-center text-gray-500">
+                    No products found. Add your first product above.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
