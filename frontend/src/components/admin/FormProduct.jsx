@@ -4,6 +4,7 @@ import { createProduct } from '../../api/Product';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { FaSave } from 'react-icons/fa';
+import UploadFile from './UploadFile';
 
 const FormProduct = () => {
   const initialState = {
@@ -20,6 +21,7 @@ const FormProduct = () => {
   const category = ecomstore((state) => state.category);
   const getProducts = ecomstore((state) => state.getProducts);
   const products = ecomstore((state) => state.products);
+
   const [form, setForm] = useState(initialState);
 
   const handleOnChange = (e) => {
@@ -161,7 +163,8 @@ const FormProduct = () => {
             </select>
           </div>
         </div>
-
+        {/* upload img */}
+        <UploadFile form={form} setForm={setForm} />
         <button
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md mt-6 w-full hover:bg-blue-600 transition-all ease-in-out transform hover:scale-105 text-sm"
@@ -200,6 +203,7 @@ const FormProduct = () => {
                 <td className="border-b px-4 py-2">
                   {new Date(item.updatedAt).toLocaleString()}
                 </td>
+                <td></td>
               </tr>
             ))}
           </tbody>
