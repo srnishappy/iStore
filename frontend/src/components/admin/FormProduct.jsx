@@ -26,7 +26,7 @@ const FormProduct = () => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [name]: value });
   };
 
   useEffect(() => {
@@ -50,8 +50,9 @@ const FormProduct = () => {
     if (result.isConfirmed) {
       try {
         const res = await createProduct(token, form);
-        toast.success(`Add ${res.data.title} successfully`);
+        toast.success(`Added ${res.data.title} successfully`);
         getProducts(token, 20);
+        setForm(initialState); // รีเซ็ตฟอร์มหลังเพิ่ม
       } catch (err) {
         toast.error(err.response.data.msg);
       }
@@ -59,7 +60,8 @@ const FormProduct = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-2xl">
+    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg w-full">
+      {/* ฟอร์มเพิ่มสินค้า */}
       <form onSubmit={handleSubmit} className="space-y-6">
         <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
           Add New Product
@@ -67,90 +69,69 @@ const FormProduct = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-3">
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Product Title
             </label>
             <input
-              id="title"
               name="title"
               type="text"
               placeholder="Enter product title"
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
               value={form.title}
               onChange={handleOnChange}
             />
           </div>
 
           <div className="p-3">
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Product Description
             </label>
             <textarea
-              id="description"
               name="description"
               placeholder="Enter product description"
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
               value={form.description}
               onChange={handleOnChange}
             />
           </div>
 
           <div className="p-3">
-            <label
-              htmlFor="price"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Product Price (฿)
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Price (฿)
             </label>
             <input
-              id="price"
               name="price"
               type="number"
               placeholder="Enter product price"
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
               value={form.price}
               onChange={handleOnChange}
             />
           </div>
 
           <div className="p-3">
-            <label
-              htmlFor="quantity"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Product Quantity
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Quantity
             </label>
             <input
-              id="quantity"
               name="quantity"
               type="number"
               placeholder="Enter product quantity"
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
               value={form.quantity}
               onChange={handleOnChange}
             />
           </div>
 
           <div className="p-3">
-            <label
-              htmlFor="categoryId"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Product Category
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category
             </label>
             <select
-              id="categoryId"
               name="categoryId"
               onChange={handleOnChange}
               value={form.categoryId}
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              required
+              className="border p-2 w-full rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
             >
               <option value="" disabled>
                 Please Select
@@ -163,11 +144,12 @@ const FormProduct = () => {
             </select>
           </div>
         </div>
-        {/* upload img */}
+
         <UploadFile form={form} setForm={setForm} />
+
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md mt-6 w-full hover:bg-blue-600 transition-all ease-in-out transform hover:scale-105 text-sm"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600 transition transform hover:scale-105 text-sm"
         >
           <FaSave className="inline-block mr-2" /> Add Product
         </button>
@@ -175,35 +157,47 @@ const FormProduct = () => {
 
       <hr className="my-8" />
 
+      {/* รายการสินค้า */}
       <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
         Product List
       </h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse border border-gray-300">
+
+      <div className="w-full">
+        <table className="w-full table-auto border-collapse border border-gray-300">
           <thead className="bg-gray-200">
             <tr>
-              <th className="border-b px-4 py-3 text-left">I</th>
+              <th className="border-b px-4 py-3 text-left">#</th>
               <th className="border-b px-4 py-3 text-left">Title</th>
               <th className="border-b px-4 py-3 text-left">Description</th>
-              <th className="border-b px-4 py-3 text-left">Price</th>
-              <th className="border-b px-4 py-3 text-left">Quantity</th>
+              <th className="border-b px-4 py-3 text-left">Price (฿)</th>
+              <th className="border-b px-4 py-3 text-left">Qty</th>
               <th className="border-b px-4 py-3 text-left">Sold</th>
               <th className="border-b px-4 py-3 text-left">Updated At</th>
+              <th className="border-b px-4 py-3 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {products.map((item, index) => (
               <tr key={item.id} className="hover:bg-gray-100">
                 <td className="border-b px-4 py-2">{index + 1}</td>
-                <td className="border-b px-4 py-2">{item.title}</td>
-                <td className="border-b px-4 py-2">{item.description}</td>
+                <td className="border-b px-4 py-2">{item.title || '-'}</td>
+                <td className="border-b px-4 py-2">
+                  {item.description || '-'}
+                </td>
                 <td className="border-b px-4 py-2">{item.price}฿</td>
                 <td className="border-b px-4 py-2">{item.quantity}</td>
                 <td className="border-b px-4 py-2">{item.sold}</td>
                 <td className="border-b px-4 py-2">
                   {new Date(item.updatedAt).toLocaleString()}
                 </td>
-                <td></td>
+                <td className="border-b px-4 py-2">
+                  <button className="bg-yellow-500 text-white px-3 py-1 rounded mr-2">
+                    Edit
+                  </button>
+                  <button className="bg-red-500 text-white px-3 py-1 rounded">
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
