@@ -106,11 +106,10 @@ exports.read = async (req, res) => {
       include: {
         category: true,
         images: true,
-        ฆ,
       },
     });
     res.send(products);
-    console.log(count);
+    // console.log(count);
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: 'Server Error' });
