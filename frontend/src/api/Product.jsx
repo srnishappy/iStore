@@ -6,7 +6,7 @@ export const createProduct = async (token, form) => {
     },
   });
 };
-// แก้ไขฟังก์ชัน listProduct
+
 export const listProduct = async (token, count = 20) => {
   return axios.get(`http://localhost:5000/api/products/` + count, {
     headers: {
@@ -14,6 +14,23 @@ export const listProduct = async (token, count = 20) => {
     },
   });
 };
+
+export const readProduct = async (token, id) => {
+  return axios.get(`http://localhost:5000/api/product/` + id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateProduct = async (token, id, form) => {
+  return axios.put(`http://localhost:5000/api/product/` + id, form, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const uploadFiles = async (token, form) => {
   return await axios.post(
     'http://localhost:5000/api/images',
