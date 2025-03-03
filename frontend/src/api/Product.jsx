@@ -16,7 +16,8 @@ export const listProduct = async (token, count = 20) => {
 };
 
 export const readProduct = async (token, id) => {
-  return axios.get(`http://localhost:5000/api/product/` + id, {
+  // code body
+  return axios.get('http://localhost:5000/api/product/' + id, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
