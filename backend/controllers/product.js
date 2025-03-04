@@ -1,5 +1,10 @@
 const prisma = require('../config/prisma');
 const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 exports.create = async (req, res) => {
   try {
     const { title, description, price, quantity, categoryId, images } =
@@ -49,12 +54,37 @@ exports.list = async (req, res) => {
 exports.remove = async (req, res) => {
   try {
     const { id } = req.params;
+    const product = await prisma.product.findFirst({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        images: true,
+      },
+    });
+    if (!product) {
+      return res.status(400).json({ msg: 'Product not found' });
+    }
+    console.log(product);
+    const deletedImage = product.images.map(
+      (image) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.destroy(image.public_id, (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          });
+        })
+    );
+    await Promise.all(deletedImage);
     await prisma.product.delete({
       where: {
         id: Number(id),
       },
     });
-    res.send('Remove Success');
+    res.send('Delete Success');
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: 'Server Error' });
@@ -210,12 +240,6 @@ exports.searchFilters = async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 };
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 exports.createImages = async (req, res) => {
   try {
