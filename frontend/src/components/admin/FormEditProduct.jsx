@@ -30,7 +30,7 @@ const FormProduct = () => {
   };
 
   useEffect(() => {
-    getCategory(token);
+    getCategory();
     fetchProduct(token, id, form);
   }, []);
 

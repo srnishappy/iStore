@@ -31,9 +31,9 @@ const FormProduct = () => {
   };
 
   useEffect(() => {
-    getCategory(token);
-    getProducts(token, 100);
-  }, [token, getCategory, getProducts]);
+    getCategory();
+    getProducts(100);
+  }, [getCategory, getProducts]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +53,7 @@ const FormProduct = () => {
         const res = await createProduct(token, form);
         toast.success(`Added ${res.data.title} successfully`);
         getProducts(token, 20);
+        await getProducts(100); // Wait for products to be fetched
         setForm(initialState); // รีเซ็ตฟอร์มหลังเพิ่ม
       } catch (err) {
         toast.error(err.response.data.msg);
