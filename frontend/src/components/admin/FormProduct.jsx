@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ecomstore from '../../store/ecom-store';
-import { createProduct } from '../../api/Product';
+import { createProduct, deleteProduct } from '../../api/Product';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { FaSave } from 'react-icons/fa';
@@ -56,6 +56,32 @@ const FormProduct = () => {
         setForm(initialState); // รีเซ็ตฟอร์มหลังเพิ่ม
       } catch (err) {
         toast.error(err.response.data.msg);
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    console.log(id);
+
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await deleteProduct(token, id);
+        console.log(res);
+        Swal.fire('Deleted!', 'The product has been deleted.', 'success');
+        getProducts();
+      } catch (err) {
+        toast.error(err.response?.data?.msg || 'Failed to delete product');
+        console.error(err);
       }
     }
   };
@@ -248,12 +274,13 @@ const FormProduct = () => {
                   >
                     Edit
                   </Link>
-                  <Link
+                  <div
+                    onClick={() => handleDelete(item.id)}
                     to={'/admin/product/' + item.id}
                     className="block bg-red-500 text-white px-4 py-2 rounded-md text-center hover:bg-red-600 transition-colors duration-150"
                   >
                     Delete
-                  </Link>
+                  </div>
                 </td>
               </tr>
             ))}
