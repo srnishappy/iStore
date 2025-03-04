@@ -19,9 +19,9 @@ const ecomStroe = (set) => ({
 
     return res;
   },
-  getCategory: async (token) => {
+  getCategory: async () => {
     try {
-      const res = await ListCategory(token);
+      const res = await ListCategory();
       set({
         category: res.data,
       });
@@ -29,9 +29,9 @@ const ecomStroe = (set) => ({
       console.log(err);
     }
   },
-  getProducts: async (token, count) => {
+  getProducts: async (count) => {
     try {
-      const res = await listProduct(token, count);
+      const res = await listProduct(count);
       set({
         products: res.data,
       });
