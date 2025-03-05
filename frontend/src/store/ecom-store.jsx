@@ -2,7 +2,7 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { ListCategory } from '../api/Category';
-import { listProduct } from '../api/Product';
+import { listProduct, searchFilters } from '../api/Product';
 
 const ecomStroe = (set) => ({
   user: null,
@@ -32,6 +32,16 @@ const ecomStroe = (set) => ({
   getProducts: async (count) => {
     try {
       const res = await listProduct(count);
+      set({
+        products: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  actionSearchFilters: async (arg) => {
+    try {
+      const res = await searchFilters(arg);
       set({
         products: res.data,
       });

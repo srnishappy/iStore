@@ -6,7 +6,7 @@ const ProductCard = ({ item }) => {
     item.images && Array.isArray(item.images) && item.images.length > 0;
 
   return (
-    <div className="shadow-lg p-3 w-50 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl rounded-lg text-white border border-gray-800">
+    <div className="shadow-lg p-3 w-50 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl rounded-lg text-white ">
       {/* ส่วนรูปภาพ */}
       <div className="overflow-hidden rounded-lg">
         {hasImages ? (
@@ -25,7 +25,7 @@ const ProductCard = ({ item }) => {
       {/* ข้อมูลสินค้า */}
       <div className="py-3 space-y-1">
         <p
-          className="text-lg font-semibold text-white truncate"
+          className="text-lg font-semibold text-black truncate"
           title={item.title}
         >
           {item.title}
