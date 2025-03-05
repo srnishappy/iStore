@@ -10,21 +10,23 @@ const Shop = () => {
     getProduct();
   }, []);
   return (
-    <div className="flex">
+    <div className="flex ">
       {/* searchbar */}
       <div className="w-1/4 p-4 h-screen bg-gray-100">
         <SearchCard />
       </div>
       {/* Product */}
       <div className="w-1/2 p-4 h-screen overflow-y-auto">
-        <p className="text-2xl font-bold mb-4">All Product</p>
+        <div className="flex items-center space-x-4 mb-4">
+          <p className="text-2xl font-bold">All Product</p>
+          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+            {products.length} Items
+          </span>
+        </div>
         <div className="flex flex-wrap gap-4">
           {products.map((item, index) => (
             <ProductCard item={item} key={index} />
           ))}
-          {/* Product Card */}
-
-          {/* Product Card */}
         </div>
       </div>
       {/* Cart */}
