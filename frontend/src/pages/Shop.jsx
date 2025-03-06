@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import ProductCard from '../components/card/ProductCard';
 import useEcomStore from '../store/ecom-store';
 import SearchCard from '../components/card/SearchCard';
+import CartCard from '../components/card/CartCard';
 
 const Shop = () => {
   const getProduct = useEcomStore((state) => state.getProducts);
@@ -18,7 +19,7 @@ const Shop = () => {
       {/* Product */}
       <div className="w-1/2 p-4 h-screen overflow-y-auto">
         <div className="flex items-center space-x-4 mb-4">
-          <p className="text-2xl font-bold">All Product</p>
+          <p className="text-2xl font-bold ml-4">All Product</p>
           <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
             {products.length} Items
           </span>
@@ -30,7 +31,9 @@ const Shop = () => {
         </div>
       </div>
       {/* Cart */}
-      <div className="w-1/4 p-4 bg-gray-100 h-screen overflow-y-auto">Cart</div>
+      <div className="w-1/4 p-4 bg-gray-100 h-screen overflow-y-auto">
+        <CartCard />
+      </div>
     </div>
   );
 };

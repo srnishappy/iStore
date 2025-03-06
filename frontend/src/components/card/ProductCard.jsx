@@ -1,11 +1,12 @@
 import { ShoppingCart } from 'lucide-react';
+import useEcomStore from '../../store/ecom-store';
 
 const ProductCard = ({ item }) => {
   const hasImages =
     item.images && Array.isArray(item.images) && item.images.length > 0;
-
+  const actionAddtoCart = useEcomStore((state) => state.actionAddtoCart);
   return (
-    <div className="bg-[#1E1E1E] shadow-2xl rounded-2xl overflow-hidden w-50 transform transition-all duration-300 hover:scale-105 hover:shadow-4xl relative group ml-4">
+    <div className="bg-[#1E1E1E] shadow-2xl rounded-2xl overflow-hidden w-50 transform transition-all duration-300 hover:scale-105 hover:shadow-4xl relative group ml-4 ">
       {/* Image Section */}
       <div className="relative overflow-hidden">
         {hasImages ? (
@@ -33,7 +34,7 @@ const ProductCard = ({ item }) => {
             >
               {item.title}
             </h3>
-            <span className="text-xs bg-[#4A90E2] text-white px-2 py-1 rounded-full">
+            <span className="text-xs bg-[#4A90E2] text-white px-2 py-1 rounded-full ">
               New
             </span>
           </div>
@@ -48,6 +49,7 @@ const ProductCard = ({ item }) => {
             {item.price.toLocaleString()} ฿
           </span>
           <button
+            onClick={() => actionAddtoCart(item)}
             className="bg-[#4A90E2] text-white rounded-md px-3 py-1 
             flex items-center gap-1 
             hover:bg-[#3A80D2] active:scale-95 
@@ -57,9 +59,9 @@ const ProductCard = ({ item }) => {
           >
             <ShoppingCart
               size={16}
-              className="group-hover/btn:animate-bounce"
+              className="group-hover/btn:animate-bounce "
             />
-            <span className="text-xs">Add</span>
+            <span className="text-xs cursor-pointer">Add</span>
           </button>
         </div>
       </div>
