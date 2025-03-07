@@ -1,5 +1,7 @@
 import { Trash2, ShoppingBag } from 'lucide-react';
 import useEcomStore from '../../store/ecom-store';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CartCard = () => {
   const carts = useEcomStore((state) => state.carts);
@@ -110,13 +112,20 @@ const CartCard = () => {
       </div>
 
       {/* Checkout Button */}
-      <button
-        className="bg-blue-600 hover:bg-blue-500 text-white w-full py-3 rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2"
-        disabled={carts.length === 0}
+      <Link
+        to={carts.length === 0 ? '#' : '/cart'}
+        onClick={(e) => {
+          if (carts.length === 0) {
+            e.preventDefault(); // ป้องกันการเปลี่ยนหน้า
+            toast.error('Your cart is empty');
+          }
+        }}
       >
-        <ShoppingBag size={18} />
-        <span>Proceed to Checkout</span>
-      </button>
+        <button className="bg-blue-600 hover:bg-blue-500 text-white w-full py-3 rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2">
+          <ShoppingBag size={18} />
+          <span>Proceed to Checkout</span>
+        </button>
+      </Link>
     </div>
   );
 };
