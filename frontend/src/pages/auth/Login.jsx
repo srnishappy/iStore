@@ -39,7 +39,7 @@ const Login = () => {
     if (role === 'admin') {
       navigate('/admin');
     } else {
-      navigate('/');
+      navigate(-1);
     }
   };
 
@@ -56,7 +56,7 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Email"
-              className="w-full p-3 pl-10 bg-black/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white/20 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="w-full p-4 pl-10 bg-black/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white/20 transition-all duration-200 shadow-sm hover:shadow-md"
               onChange={handleOnChange}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -69,7 +69,7 @@ const Login = () => {
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full p-3 pl-10 bg-black/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white/20 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="w-full p-4 pl-10 bg-black/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white/20 transition-all duration-200 shadow-sm hover:shadow-md"
               onChange={handleOnChange}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -77,7 +77,7 @@ const Login = () => {
             </span>
           </div>
 
-          <button className="w-full bg-white text-black py-3 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 tracking-tight">
+          <button className="w-full bg-white text-black py-4 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 tracking-tight">
             Login
           </button>
         </form>

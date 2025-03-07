@@ -8,9 +8,7 @@ const Footer = () => {
           {/* ด้านซ้าย */}
           <div className="text-left">
             <h2 className="text-xl font-bold tracking-wide">Made by</h2>
-            <p className="text-sm text-gray-400 mt-2">
-              A student learning to code
-            </p>
+            <p className="text-sm text-gray-400 mt-2">srnishappy</p>
           </div>
 
           {/* ตรงกลาง */}

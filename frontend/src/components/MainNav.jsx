@@ -9,9 +9,11 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import useEcomStore from '../store/ecom-store';
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const carts = useEcomStore((state) => state.carts);
 
   return (
     <nav className="bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white shadow-lg backdrop-blur-md">
@@ -22,16 +24,25 @@ const MainNav = () => {
             {[
               { name: 'Home', to: '/', Icon: Home },
               { name: 'Shop', to: '/shop', Icon: ShoppingBag },
-              { name: 'Cart', to: '/cart', Icon: ShoppingCart },
-            ].map(({ name, to, Icon }) => (
+              {
+                name: 'Cart',
+                to: '/cart',
+                Icon: ShoppingCart,
+                badge: carts.length > 0 && (
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 bg-blue-600 text-xs text-white rounded-full -mr-5 -mt-3">
+                    {carts.length}
+                  </span>
+                ),
+              },
+            ].map(({ name, to, Icon, badge }) => (
               <Link
                 key={name}
                 to={to}
-                className="flex items-center gap-3 text-xl font-medium hover:text-blue-500 transition-all duration-300 relative group"
+                className="relative flex items-center gap-3 text-xl font-medium hover:text-blue-500 transition-all duration-300"
               >
                 <Icon size={24} />
                 <span className="text-lg">{name}</span>
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                {badge}
               </Link>
             ))}
           </div>
@@ -71,16 +82,26 @@ const MainNav = () => {
             {[
               { name: 'Home', to: '/', Icon: Home },
               { name: 'Shop', to: '/shop', Icon: ShoppingBag },
-              { name: 'Cart', to: '/cart', Icon: ShoppingCart },
-            ].map(({ name, to, Icon }) => (
+              {
+                name: 'Cart',
+                to: '/cart',
+                Icon: ShoppingCart,
+                badge: carts.length > 0 && (
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 bg-red-600 text-xs text-white rounded-full -mr-2 -mt-2">
+                    {carts.length}
+                  </span>
+                ),
+              },
+            ].map(({ name, to, Icon, badge }) => (
               <Link
                 key={name}
                 to={to}
-                className="flex items-center gap-4 py-4 px-6 text-xl hover:text-blue-500 transition-all"
+                className="relative flex items-center gap-4 py-4 px-6 text-xl hover:text-blue-500 transition-all"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Icon size={24} />
                 <span className="text-lg">{name}</span>
+                {badge}
               </Link>
             ))}
             <div className="flex flex-col gap-4 pt-4 border-t border-gray-700">

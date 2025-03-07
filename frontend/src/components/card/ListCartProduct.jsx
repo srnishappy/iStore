@@ -1,13 +1,23 @@
 import { ListCheck, ArrowLeft, CreditCard } from 'lucide-react';
 import useEcomStore from '../../store/ecom-store';
 import { Link } from 'react-router-dom';
-
+import { createUserCart } from '../../api/User';
 const ListCartProduct = () => {
-  const carts = useEcomStore((state) => state.carts);
+  const cart = useEcomStore((state) => state.carts);
   const actionGetTotalPrice = useEcomStore(
     (state) => state.actionGetTotalPrice
   );
-
+  const user = useEcomStore((state) => state.user);
+  const token = useEcomStore((state) => state.token);
+  const handleSaveCart = async () => {
+    await createUserCart(token, { cart })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="max-w-6xl mx-auto bg-gray-50 rounded-lg shadow-lg p-8">
       {/* Header */}
@@ -24,23 +34,22 @@ const ListCartProduct = () => {
               Order Summary
             </h2>
             <p className="text-base text-gray-500">
-              {carts.length} {carts.length === 1 ? 'item' : 'items'} in your
-              cart
+              {cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart
             </p>
           </div>
 
           {/* Cart Items Container */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            {carts.length === 0 ? (
+            {cart.length === 0 ? (
               <div className="p-6 text-center text-gray-400">
                 <p>Your cart is empty</p>
               </div>
             ) : (
-              carts.map((item, index) => (
+              cart.map((item, index) => (
                 <div
                   key={index}
                   className={`p-5 ${
-                    index !== carts.length - 1 ? 'border-b border-gray-100' : ''
+                    index !== cart.length - 1 ? 'border-b border-gray-100' : ''
                   }`}
                 >
                   {/* Item Details */}
@@ -77,10 +86,6 @@ const ListCartProduct = () => {
           </div>
 
           {/* Back to Cart Button */}
-          <button className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
-            <ArrowLeft size={18} />
-            <Link to="/shop">Back to Cart</Link>
-          </button>
         </div>
 
         {/* Right Side - Order Summary (2/5 width on medium screens and up) */}
@@ -105,15 +110,33 @@ const ListCartProduct = () => {
             </div>
 
             {/* Buttons */}
-            <div className="space-y-4">
-              <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 w-full py-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-3">
-                <ArrowLeft size={20} />
-                <span>Edit Cart</span>
-              </button>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-3">
-                <CreditCard size={20} />
-                <span>Proceed to Payment</span>
-              </button>
+            <div className="space-y-6">
+              {' '}
+              {/* Increased spacing here */}
+              <Link to="/shop">
+                <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 w-full py-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-3 mb-4">
+                  <ArrowLeft size={20} />
+                  <span>Edit Cart</span>
+                </button>
+              </Link>
+              {user ? (
+                <Link to="/checkout">
+                  <button
+                    onClick={handleSaveCart}
+                    className="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-3"
+                  >
+                    <CreditCard size={20} />
+                    <span>Proceed to Checkout</span>
+                  </button>
+                </Link>
+              ) : (
+                <Link to="/login">
+                  <button className="bg-red-500 hover:bg-red-700 text-white w-full py-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-3">
+                    <CreditCard size={20} />
+                    <span>Login</span>
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

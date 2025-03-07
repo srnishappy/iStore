@@ -37,8 +37,8 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-6">
-      <div className="w-full max-w-sm bg-white/5 backdrop-blur-lg rounded-xl border border-gray-800 p-8 shadow-2xl hover:shadow-gray-900/50 transition-all duration-300">
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="w-full max-w-sm bg-white rounded-xl border border-gray-800 p-8 shadow-2xl hover:shadow-gray-900/50 transition-all duration-300">
         <h2 className="text-3xl font-extrabold text-center text-black mb-6 tracking-wide">
           Register
         </h2>
@@ -49,7 +49,7 @@ const Register = () => {
               type="email"
               name="email"
               placeholder="Email"
-              className="w-full p-3 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
               onChange={handleOnChange}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -62,7 +62,7 @@ const Register = () => {
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full p-3 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
               onChange={handleOnChange}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -75,7 +75,7 @@ const Register = () => {
               type="password"
               name="confirmPassword"
               placeholder="Confirm Password"
-              className="w-full p-3 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
               onChange={handleOnChange}
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -83,7 +83,7 @@ const Register = () => {
             </span>
           </div>
 
-          <button className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 tracking-tight">
+          <button className="w-full bg-black text-white py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 tracking-tight">
             Register
           </button>
         </form>
