@@ -6,3 +6,21 @@ export const createUserCart = async (token, cart) => {
     },
   });
 };
+export const ListUserCart = async (token) => {
+  return await axios.get('http://localhost:5000/api/user/cart', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const SaveAddress = async (token, address) => {
+  return await axios.post(
+    'http://localhost:5000/api/user/address',
+    { address },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
