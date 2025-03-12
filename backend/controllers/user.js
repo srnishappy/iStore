@@ -171,6 +171,7 @@ exports.saveAddress = async (req, res) => {
 };
 exports.saveOrder = async (req, res) => {
   try {
+    const { id, amount, status, currency } = req.body.paymentIntent;
     //1 getuser cart
     const userCart = await prisma.cart.findFirst({
       where: { orderedById: Number(req.user.id) },
@@ -185,25 +186,26 @@ exports.saveOrder = async (req, res) => {
       return res.status(400).json({ ok: false, msg: 'Cart is Empty' });
     }
     //Check quantity
-    for (const item of userCart.products) {
-      const product = await prisma.product.findUnique({
-        where: {
-          id: item.productId,
-        },
-        select: {
-          quantity: true,
-          title: true,
-        },
-      });
-      if (!product || item.count > product.quantity) {
-        return res.status(400).json({
-          ok: false,
-          msg: `ขออภัยสินค้า ${product.title || 'product'} หมด`,
-        });
-      }
-      // console.log(product);
-    }
+    // for (const item of userCart.products) {
+    //   const product = await prisma.product.findUnique({
+    //     where: {
+    //       id: item.productId,
+    //     },
+    //     select: {
+    //       quantity: true,
+    //       title: true,
+    //     },
+    //   });
+    //   if (!product || item.count > product.quantity) {
+    //     return res.status(400).json({
+    //       ok: false,
+    //       msg: `ขออภัยสินค้า ${product.title || 'product'} หมด`,
+    //     });
+    //   }
+    //   // console.log(product);
+    // }
     // Create New Order
+    const amountThb = Number(amount) / 100;
     const order = await prisma.order.create({
       data: {
         products: {
@@ -217,8 +219,16 @@ exports.saveOrder = async (req, res) => {
           connect: { id: req.user.id },
         },
         cartTotal: userCart.cartTotal,
+        stripePaymentId: id,
+        amount: amountThb,
+        status: status,
+        currency: currency,
       },
     });
+    // stripePaymentId String?
+    // amount          Int?
+    // status          String?
+    // currency        String?
     //update productS
     const update = userCart.products.map((item) => ({
       where: { id: item.productId },

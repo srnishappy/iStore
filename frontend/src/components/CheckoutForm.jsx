@@ -5,12 +5,16 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import '../components/stripe.css';
+import { SaveOrder } from '../api/User';
+import useEcomStore from '../store/ecom-store';
+
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const token = useEcomStore((state) => state.token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,11 +33,11 @@ export default function CheckoutForm() {
     if (payload.error) {
       setMessage(payload.error.message);
       console.log('error');
-    } else if (payload.paymentIntent.status === 'succeeded') {
-      console.log('Payment succeeded!');
       // Perform any necessary actions after successful payment here
     } else {
-      console.log('Something went wrong!');
+      SaveOrder(token, payload)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     }
 
     setIsLoading(false);

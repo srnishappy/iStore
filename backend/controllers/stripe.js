@@ -5,8 +5,14 @@ const stripe = require('stripe')(
 
 exports.payment = async (req, res) => {
   try {
+    const cart = await prisma.cart.findFirst({
+      where: {
+        orderedById: req.user.id,
+      },
+    });
+    const amountThb = cart.cartTotal * 100;
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 5000,
+      amount: amountThb,
       currency: 'thb',
       automatic_payment_methods: {
         enabled: true,
