@@ -6,8 +6,9 @@ import {
   MapPin,
 } from 'lucide-react';
 import useEcomStore from '../../store/ecom-store';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // เพิ่ม useNavigate
 import { createUserCart } from '../../api/User';
+import { toast } from 'react-toastify';
 
 const ListCartProduct = () => {
   const cart = useEcomStore((state) => state.carts);
@@ -16,15 +17,18 @@ const ListCartProduct = () => {
   );
   const user = useEcomStore((state) => state.user);
   const token = useEcomStore((state) => state.token);
+  const navigate = useNavigate(); // ใช้ useNavigate
 
   const handleSaveCart = async () => {
-    await createUserCart(token, { cart })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await createUserCart(token, { cart });
+      console.log(res);
+      // หากบันทึกสำเร็จ ให้ navigate ไปยังหน้าถัดไป
+      navigate('/checkout');
+    } catch (err) {
+      toast.warning(err.response.data.message);
+      // ไม่ต้อง navigate หากเกิดข้อผิดพลาด
+    }
   };
 
   return (
@@ -189,15 +193,13 @@ const ListCartProduct = () => {
 
               <div className="space-y-4">
                 {user ? (
-                  <Link to="/checkout">
-                    <button
-                      onClick={handleSaveCart}
-                      className="bg-blue-600 text-white w-full py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
-                    >
-                      <MapPin size={18} />
-                      <span>Proceed to Checkout</span>
-                    </button>
-                  </Link>
+                  <button
+                    onClick={handleSaveCart}
+                    className="bg-blue-600 text-white w-full py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                  >
+                    <MapPin size={18} />
+                    <span>Proceed to Checkout</span>
+                  </button>
                 ) : (
                   <Link to="/login">
                     <button className="bg-red-500 hover:bg-red-600 text-white w-full py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center gap-3 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
