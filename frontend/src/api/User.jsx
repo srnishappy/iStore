@@ -31,3 +31,10 @@ export const SaveOrder = async (token, payload) => {
     },
   });
 };
+export const getOrder = async (token) => {
+  return await axios.get('http://localhost:5000/api/user/order', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
