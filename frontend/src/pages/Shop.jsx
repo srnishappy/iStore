@@ -33,7 +33,8 @@ const Shop = () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#ffff]">
-      <div className="lg:hidden flex justify-between items-center p-4 bg-[#1E1E1E] text-white sticky top-0 z-10">
+      {/* Mobile Header */}
+      <div className="lg:hidden flex items-center justify-between px-2 py-3 bg-[#1E1E1E] text-white sticky top-0 z-10 w-full">
         <button
           onClick={() => {
             setShowSearch(true);
@@ -43,9 +44,9 @@ const Shop = () => {
         >
           <Filter size={20} />
         </button>
-        <div className="flex items-center space-x-4">
-          <p className="text-xl font-bold">All Products</p>
-          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+        <div className="flex-1 flex items-center justify-center space-x-2">
+          <p className="text-lg font-bold">All Products</p>
+          <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-sm">
             {products.length} Items
           </span>
         </div>
@@ -68,7 +69,7 @@ const Shop = () => {
       <aside
         className={`${
           showSearch ? 'fixed inset-0 z-20' : 'hidden lg:block'
-        } lg:static lg:z-auto w-full lg:w-1/4 h-screen lg:h-auto bg-white`}
+        } lg:static lg:z-auto w-full lg:w-1/5 h-screen lg:h-auto bg-white`}
       >
         {showSearch && (
           <div className="lg:hidden flex justify-end p-2">
@@ -80,12 +81,12 @@ const Shop = () => {
             </button>
           </div>
         )}
-        <div className="p-4 overflow-y-auto max-h-screen">
+        <div className="p-2 lg:p-4 overflow-y-auto max-h-screen">
           <SearchCard />
         </div>
       </aside>
 
-      <main className="w-full lg:w-1/2 p-4 overflow-y-auto flex-grow">
+      <main className="w-full lg:w-3/5 p-2 lg:p-4 overflow-y-auto flex-grow">
         <div className="hidden lg:flex items-center space-x-4 mb-4">
           <p className="text-2xl font-bold text-black">All Products</p>
           <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
@@ -93,13 +94,13 @@ const Shop = () => {
           </span>
         </div>
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 w-full">
             {products.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))}
           </div>
         ) : (
-          <div className="bg-gray-200 border border-gray-300 text-black p-6 rounded-xl mb-4 text-center">
+          <div className="bg-gray-200 border border-gray-300 text-black p-4 lg:p-6 rounded-xl mb-4 text-center w-full">
             <h3 className="text-2xl font-bold mb-2">No Products Found</h3>
             <p className="text-lg">
               Try searching with different keywords or adjust filters.
@@ -111,7 +112,7 @@ const Shop = () => {
       <aside
         className={`${
           showCart ? 'fixed inset-0 z-20' : 'hidden lg:block'
-        } lg:static lg:z-auto w-full lg:w-1/4 h-screen lg:h-auto bg-white`}
+        } lg:static lg:z-auto w-full lg:w-1/5 h-screen lg:h-auto bg-white`}
       >
         {showCart && (
           <div className="lg:hidden flex justify-end p-2">

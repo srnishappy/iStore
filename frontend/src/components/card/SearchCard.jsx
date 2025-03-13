@@ -67,14 +67,14 @@ const SearchCard = () => {
   };
 
   return (
-    <div className="w-full bg-[#1E1E1E] text-white p-4 md:p-6 rounded-2xl shadow-2xl flex flex-col">
+    <div className="w-full bg-[#1E1E1E] text-white p-2 lg:p-4 rounded-2xl shadow-2xl flex flex-col">
       {/* Header with collapse button for mobile */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-2 text-xl md:text-2xl font-bold">
+      <div className="flex items-center justify-between mb-2 lg:mb-4">
+        <div className="flex items-center space-x-2 text-lg lg:text-2xl font-bold">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -113,23 +113,23 @@ const SearchCard = () => {
       </div>
 
       {/* Search input - always visible */}
-      <div className="relative mb-4">
+      <div className="relative mb-2 lg:mb-4">
         <input
-          className="w-full bg-[#2C2C2C] border-none rounded-xl px-4 py-3 pl-10 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full bg-[#2C2C2C] border-none rounded-xl px-3 lg:px-4 py-2 lg:py-3 pl-9 lg:pl-10 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="Type to search..."
           onChange={(e) => setText(e.target.value)}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+          className="absolute left-2 lg:left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
         >
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -137,14 +137,18 @@ const SearchCard = () => {
       </div>
 
       {/* Collapsible filter section */}
-      <div className={`space-y-4 ${isCollapsed ? 'hidden' : 'block'} md:block`}>
+      <div
+        className={`space-y-2 lg:space-y-4 ${
+          isCollapsed ? 'hidden' : 'block'
+        } md:block`}
+      >
         {/* Category section */}
         <div>
-          <div className="flex items-center space-x-2 text-lg md:text-xl font-bold mb-3">
+          <div className="flex items-center space-x-2 text-base lg:text-xl font-bold mb-2 lg:mb-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -158,12 +162,12 @@ const SearchCard = () => {
             </svg>
             <span>Category</span>
           </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-4">
+          <div className="grid grid-cols-2 gap-1 lg:gap-2">
             {category && category.length > 0 ? (
               category.map((item, index) => (
                 <label
                   key={index}
-                  className="flex items-center space-x-2 bg-[#2C2C2C] p-2 md:p-3 rounded-xl cursor-pointer hover:bg-[#3C3C3C] transition-colors text-sm md:text-base"
+                  className="flex items-center space-x-2 bg-[#2C2C2C] p-1 lg:p-2 rounded-xl cursor-pointer hover:bg-[#3C3C3C] transition-colors text-xs lg:text-base"
                 >
                   <input
                     type="checkbox"
@@ -176,7 +180,7 @@ const SearchCard = () => {
                 </label>
               ))
             ) : (
-              <div className="col-span-2 text-center py-2 bg-[#2C2C2C] rounded-xl">
+              <div className="col-span-2 text-center py-1 lg:py-2 bg-[#2C2C2C] rounded-xl">
                 No categories available
               </div>
             )}
@@ -185,11 +189,11 @@ const SearchCard = () => {
 
         {/* Price Range section */}
         <div>
-          <div className="flex items-center space-x-2 text-lg md:text-xl font-bold mb-3">
+          <div className="flex items-center space-x-2 text-base lg:text-xl font-bold mb-2 lg:mb-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -204,8 +208,8 @@ const SearchCard = () => {
             </svg>
             <span>Price Range</span>
           </div>
-          <div className="bg-[#2C2C2C] p-3 md:p-4 rounded-xl">
-            <div className="flex justify-between mb-3 text-sm md:text-base">
+          <div className="bg-[#2C2C2C] p-2 lg:p-3 rounded-xl">
+            <div className="flex justify-between mb-2 lg:mb-3 text-xs lg:text-base">
               <span>Min: {price[0]} ฿</span>
               <span>Max: {price[1]} ฿</span>
             </div>

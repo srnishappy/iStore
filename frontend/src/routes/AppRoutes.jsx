@@ -18,6 +18,7 @@ import ProtectRouteUser from './ProtectRouteUser';
 import ProtectRouteAdmin from './ProtectRouteAdmin';
 import EditProduct from '../pages/admin/EditProduct';
 import Payment from '../pages/user/Payment';
+import ManageOrder from '../pages/admin/ManageOrder';
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -42,6 +43,7 @@ const AppRoutes = () => {
         { path: 'product', element: <Product /> },
         { path: 'product/:id', element: <EditProduct /> },
         { path: 'manage', element: <Manage /> },
+        { path: 'order', element: <ManageOrder /> },
       ],
     },
     {

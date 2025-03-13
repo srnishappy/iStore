@@ -5,6 +5,7 @@ import {
   FolderKanban,
   ShoppingCart,
   LogOut,
+  ListCheck,
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -72,6 +73,20 @@ const Sidebar = () => {
         >
           <ShoppingCart size={22} className="text-gray-400" />
           <span>Product</span>
+        </NavLink>
+
+        <NavLink
+          to={'/admin/order'}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-md text-lg font-medium transition duration-300 ${
+              isActive
+                ? 'bg-gray-900 text-white shadow-md'
+                : 'text-gray-400 hover:bg-gray-700 hover:text-white hover:scale-105'
+            }`
+          }
+        >
+          <ListCheck size={22} className="text-gray-400" />
+          <span>Orders</span>
         </NavLink>
       </nav>
 
