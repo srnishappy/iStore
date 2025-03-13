@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { payment } from '../../api/Stripe';
@@ -32,7 +32,6 @@ const Payment = () => {
       inputBackgroundColor: '#f7f7f7',
       inputBorderColor: '#ccc',
       inputBorderFocusColor: '#0066ff',
-      inputTextColor: '#333',
       buttonBackgroundColor: '#0066ff',
       buttonTextColor: '#ffffff',
       buttonBorderColor: '#0066ff',

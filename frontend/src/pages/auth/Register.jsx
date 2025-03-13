@@ -10,6 +10,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnChange = (e) => {
     setForm({
@@ -25,6 +26,7 @@ const Register = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const res = await axios.post('http://localhost:5000/api/register', form);
       toast.success('Registration successful!');
@@ -33,67 +35,175 @@ const Register = () => {
       console.log(err);
       const errmsg = err.response?.data?.msg || 'Something went wrong!';
       toast.error(errmsg);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-sm bg-white rounded-xl border border-gray-800 p-8 shadow-2xl hover:shadow-gray-900/50 transition-all duration-300">
-        <h2 className="text-3xl font-extrabold text-center text-black mb-6 tracking-wide">
-          Register
+    <div className="min-h-screen flex items-center justify-center p-6 bg-white">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-blue-100 p-8 shadow-lg">
+        <div className="flex justify-center mb-6">
+          <div className="h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 text-white"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+            </svg>
+          </div>
+        </div>
+
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8 tracking-wide">
+          Create Account
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="relative">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
-              onChange={handleOnChange}
-            />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              ✉️
-            </span>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              Email Address
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+              </div>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
           </div>
 
-          <div className="relative">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
-              onChange={handleOnChange}
-            />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              🔒
-            </span>
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
           </div>
 
-          <div className="relative">
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              className="w-full p-4 pl-10 bg-white text-black border border-gray-400 rounded-lg placeholder-gray-500 focus:border-gray-600 focus:ring-2 focus:ring-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
-              onChange={handleOnChange}
-            />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-              🔒
-            </span>
+          <div className="space-y-2">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              Confirm Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
           </div>
 
-          <button className="w-full bg-black text-white py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 tracking-tight">
-            Register
+          <button
+            type="submit"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Processing...
+              </div>
+            ) : (
+              'Create Account'
+            )}
           </button>
         </form>
 
-        <div className="flex justify-center mt-5 text-sm text-gray-500">
-          <p>Already have an account?&nbsp;</p>
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Login
+        <p className="text-center text-sm text-gray-600 mt-8">
+          Already have an account?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-blue-600 hover:text-blue-500 transition-all duration-200"
+          >
+            Sign in
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );
