@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  margin-left: 0;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.search,
+.products,
+.cart {
+  margin-left: 0;
+}
