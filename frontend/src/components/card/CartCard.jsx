@@ -15,6 +15,11 @@ const CartCard = ({ onClose }) => {
     (state) => state.actionGetTotalPrice
   );
 
+  // ฟังก์ชันที่ใช้ในการ format ราคา
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('th-TH').format(price); // ใช้รูปแบบของไทย (th-TH)
+  };
+
   return (
     <div className="w-full bg-[#1E1E1E] text-white p-4 sm:p-6 rounded-2xl shadow-2xl">
       {/* Header */}
@@ -98,8 +103,9 @@ const CartCard = ({ onClose }) => {
                   </button>
                 </div>
                 {/* Price */}
-                <div className="font-bold text-base sm:text-lg text-blue-200">
-                  {item.price * item.count} ฿
+                <div className="font-bold text-blue-200">
+                  <span>{formatPrice(item.price * item.count)}</span>
+                  <span className="ml-1">฿</span>
                 </div>
               </div>
             </div>
@@ -111,7 +117,9 @@ const CartCard = ({ onClose }) => {
       <div className="bg-[#2C2C2C] rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
         <div className="flex justify-between py-2 text-base sm:text-lg font-bold">
           <span>Total</span>
-          <span className="text-blue-300">{actionGetTotalPrice()} ฿</span>
+          <span className="text-blue-300">
+            {formatPrice(actionGetTotalPrice())} ฿
+          </span>
         </div>
       </div>
 
