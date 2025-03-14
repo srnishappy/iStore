@@ -190,51 +190,50 @@ const FormProduct = () => {
 
       <hr className="my-10 border-gray-200" />
 
-      {/* รายการสินค้า */}
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+      <h2 className="text-2xl font-bold text-b mb-6 text-center">
         Product List
       </h2>
 
       <div className="w-full overflow-x-auto rounded-lg shadow">
         <table className="w-full table-auto border-collapse">
-          <thead className="bg-gray-100">
+          <thead className="bg-blue-900">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Id
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Picture
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Title
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Description
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Price (฿)
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Qty
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Sold
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Updated At
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-blue-200 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-gray-800 divide-y divide-gray-700">
             {products.map((item, index) => (
               <tr
                 key={item.id}
-                className="hover:bg-gray-50 transition-colors duration-150"
+                className="hover:bg-gray-700 transition-colors duration-150"
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-100">
                   {index + 1}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -245,40 +244,39 @@ const FormProduct = () => {
                       alt={item.title}
                     />
                   ) : (
-                    <div className="h-20 w-20 bg-gray-200 rounded flex items-center justify-center text-gray-400">
+                    <div className="h-20 w-20 bg-gray-600 rounded flex items-center justify-center text-gray-400">
                       No image
                     </div>
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-100">
                   {item.title || '-'}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                <td className="px-6 py-4 text-sm text-blue-300 max-w-xs truncate">
                   {item.description || '-'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-100">
                   {item.price}฿
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-300">
                   {item.quantity}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-300">
                   {item.sold}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-300">
                   {new Date(item.updatedAt).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-y-2">
                   <Link
                     to={'/admin/product/' + item.id}
-                    className="block bg-yellow-500 text-white px-4 py-2 rounded-md text-center hover:bg-yellow-600 transition-colors duration-150"
+                    className="block bg-blue-600 text-white px-4 py-2 rounded-md text-center hover:bg-blue-700 transition-colors duration-150"
                   >
                     Edit
                   </Link>
                   <div
                     onClick={() => handleDelete(item.id)}
-                    to={'/admin/product/' + item.id}
-                    className="block bg-red-500 text-white px-4 py-2 rounded-md text-center hover:bg-red-600 transition-colors duration-150"
+                    className="block bg-red-700 text-white px-4 py-2 rounded-md text-center hover:bg-red-800 transition-colors duration-150"
                   >
                     Delete
                   </div>
