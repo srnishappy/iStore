@@ -1,4 +1,10 @@
+import ManageUser from '../../components/admin/ManageUser';
+
 const Manage = () => {
-  return <div>Manage</div>;
+  return (
+    <div>
+      <ManageUser />
+    </div>
+  );
 };
 export default Manage;
