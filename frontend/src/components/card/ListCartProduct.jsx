@@ -19,6 +19,11 @@ const ListCartProduct = () => {
   const token = useEcomStore((state) => state.token);
   const navigate = useNavigate(); // ใช้ useNavigate
 
+  // Function to format numbers with commas
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat().format(price);
+  };
+
   const handleSaveCart = async () => {
     try {
       const res = await createUserCart(token, { cart });
@@ -116,13 +121,15 @@ const ListCartProduct = () => {
                               Qty: {item.count}
                             </span>
                             <span className="mx-2">×</span>
-                            <span className="font-medium">฿{item.price}</span>
+                            <span className="font-medium">
+                              ฿{formatPrice(item.price)}
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div>
                         <p className="text-blue-600 font-bold bg-blue-50 px-3 py-1 rounded-lg text-sm">
-                          ฿{item.price * item.count}
+                          ฿{formatPrice(item.price * item.count)}
                         </p>
                       </div>
                     </div>
@@ -154,7 +161,7 @@ const ListCartProduct = () => {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600 p-2 hover:bg-gray-50 rounded-lg transition-colors text-sm">
                   <span>Subtotal</span>
-                  <span>฿{actionGetTotalPrice()}</span>
+                  <span>฿{formatPrice(actionGetTotalPrice())}</span>
                 </div>
 
                 <div className="flex justify-between text-gray-600 p-2 hover:bg-gray-50 rounded-lg transition-colors text-sm">
@@ -184,7 +191,7 @@ const ListCartProduct = () => {
                   <span className="font-bold text-gray-800 text-sm">Total</span>
                   <div className="relative">
                     <span className="text-blue-600 font-bold text-lg">
-                      ฿{actionGetTotalPrice()}
+                      ฿{formatPrice(actionGetTotalPrice())}
                     </span>
                     <div className="absolute -bottom-1 left-0 w-full h-1 bg-blue-600 opacity-20 rounded-full"></div>
                   </div>
@@ -214,11 +221,12 @@ const ListCartProduct = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                        <polyline points="10 17 15 12 10 7" />
-                        <line x1="15" y1="12" x2="3" y2="12" />
+                        <path d="M15 3h4a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-4" />
+                        <path d="M10 3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4" />
+                        <path d="M10 12l6-6" />
+                        <path d="M16 6l-6 6" />
                       </svg>
-                      <span>Login to Continue</span>
+                      <span>Login to Checkout</span>
                     </button>
                   </Link>
                 )}

@@ -6,6 +6,10 @@ import {
   Clock,
   Receipt,
   BadgeCheck,
+  XCircle,
+  RotateCcw,
+  AlertTriangle,
+  Truck,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import useEcomStore from '../../store/ecom-store';
@@ -32,6 +36,7 @@ const HistoryCard = () => {
   };
 
   // Status color and icon functions
+
   const getStatusInfo = (status) => {
     switch (status?.toLowerCase()) {
       case 'completed':
@@ -39,10 +44,45 @@ const HistoryCard = () => {
           color: 'bg-green-100 text-green-800',
           icon: <CheckCircle className="w-4 h-4 mr-1" />,
         };
-      case 'Not Process':
+      case 'not process':
         return {
           color: 'bg-blue-100 text-blue-800',
           icon: <Clock className="w-4 h-4 mr-1" />,
+        };
+      case 'processing':
+        return {
+          color: 'bg-yellow-100 text-yellow-800',
+          icon: <CalendarDays className="w-4 h-4 mr-1" />,
+        };
+      case 'shipped':
+        return {
+          color: 'bg-purple-100 text-purple-800',
+          icon: <Truck className="w-4 h-4 mr-1" />,
+        };
+      case 'out for delivery':
+        return {
+          color: 'bg-orange-100 text-orange-800',
+          icon: <ShoppingBag className="w-4 h-4 mr-1" />,
+        };
+      case 'delivered':
+        return {
+          color: 'bg-green-200 text-green-900',
+          icon: <BadgeCheck className="w-4 h-4 mr-1" />,
+        };
+      case 'cancel':
+        return {
+          color: 'bg-red-100 text-red-800',
+          icon: <XCircle className="w-4 h-4 mr-1" />,
+        };
+      case 'returned':
+        return {
+          color: 'bg-gray-200 text-gray-900',
+          icon: <RotateCcw className="w-4 h-4 mr-1" />,
+        };
+      case 'failed delivery':
+        return {
+          color: 'bg-red-200 text-red-900',
+          icon: <AlertTriangle className="w-4 h-4 mr-1" />,
         };
       default:
         return {

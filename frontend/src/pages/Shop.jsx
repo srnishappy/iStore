@@ -32,7 +32,7 @@ const Shop = () => {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[#ffff]">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#ffff] w-">
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between px-2 py-3 bg-[#1E1E1E] text-white sticky top-0 z-10 w-full">
         <button

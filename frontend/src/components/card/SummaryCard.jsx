@@ -62,6 +62,11 @@ const SummaryCard = () => {
       });
   };
 
+  // Function to format numbers with commas
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat().format(price);
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-4">
       {/* Header steps */}
@@ -146,14 +151,14 @@ const SummaryCard = () => {
                           </span>
                           <span className="mx-2">×</span>
                           <span className="font-medium">
-                            {item.product.price}฿
+                            {formatPrice(item.product.price)}฿
                           </span>
                         </div>
                       </div>
                     </div>
                     <div>
                       <p className="text-blue-600 font-bold bg-blue-50 px-8 rounded-lg text-sm">
-                        {item.count * item.product.price}฿
+                        {formatPrice(item.count * item.product.price)}฿
                       </p>
                     </div>
                   </div>
@@ -184,7 +189,7 @@ const SummaryCard = () => {
                 <p className="font-bold text-gray-800 text-sm">Total Amount</p>
                 <div className="relative">
                   <p className="text-blue-600 font-bold text-lg">
-                    ฿{carttotal}
+                    ฿{formatPrice(carttotal)}
                   </p>
                   <div className="absolute -bottom-1 left-0 w-full h-1 bg-blue-600 opacity-20 rounded-full"></div>
                 </div>

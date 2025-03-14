@@ -83,9 +83,7 @@ const FormCategory = () => {
   return (
     <div className="container mx-auto p-8 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-xl rounded-xl max-w-lg border border-gray-200">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-          Category Management
-        </span>
+        <span className="">Category Management</span>
       </h1>
 
       <form className="mb-8 flex gap-3" onSubmit={handleSubmit}>
@@ -97,7 +95,7 @@ const FormCategory = () => {
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
         />
         <button
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 shadow-md font-medium"
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md font-medium"
           type="submit"
         >
           Add
@@ -121,7 +119,7 @@ const FormCategory = () => {
               >
                 <span className="text-gray-800 font-medium">{item.name}</span>
                 <button
-                  className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-md hover:from-red-600 hover:to-pink-600 transition duration-300 shadow-sm text-sm font-medium"
+                  className="bg-red-500  text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-300 shadow-sm text-sm font-medium"
                   onClick={() => handleDelete(item.id)}
                 >
                   Delete
@@ -132,7 +130,7 @@ const FormCategory = () => {
         )}
       </div>
 
-      <div className="mt-6 text-center text-sm text-gray-500">
+      <div className="mt-6 text-center font-bold  text-bold text-black">
         <p>Total categories: {category.length}</p>
       </div>
     </div>
