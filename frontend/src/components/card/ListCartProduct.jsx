@@ -201,6 +201,7 @@ const ListCartProduct = () => {
               <div className="space-y-4">
                 {user ? (
                   <button
+                    disabled={cart.length === 0}
                     onClick={handleSaveCart}
                     className="bg-blue-600 text-white w-full py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
                   >

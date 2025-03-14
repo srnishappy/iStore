@@ -11,6 +11,15 @@ const ecomStroe = (set, get) => ({
   category: [],
   products: [],
   carts: [],
+  logout: () => {
+    set({
+      user: null,
+      token: null,
+      category: [],
+      products: [],
+      carts: [],
+    });
+  },
   actionAddtoCart: async (product) => {
     const carts = get().carts;
     const updatecart = [...carts, { ...product, count: 1 }];
@@ -78,6 +87,11 @@ const ecomStroe = (set, get) => ({
     } catch (err) {
       console.log(err);
     }
+  },
+  clearCart: () => {
+    set({
+      carts: [],
+    });
   },
 });
 

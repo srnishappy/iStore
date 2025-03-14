@@ -16,6 +16,7 @@ export default function CheckoutForm() {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const token = useEcomStore((state) => state.token);
+  const clearCart = useEcomStore((state) => state.clearCart);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +43,7 @@ export default function CheckoutForm() {
       // console.log('Ready to save order');
       SaveOrder(token, payload)
         .then((res) => {
+          clearCart();
           toast.success('Payment Successfully');
           navigate('/user/history');
         })
