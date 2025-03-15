@@ -21,3 +21,14 @@ export const currentAdmin = async (token) => {
     }
   );
 };
+export const UserchangePassword = async (
+  email,
+  currentPassword,
+  newPassword
+) => {
+  return await axios.put('http://localhost:5000/api/change-password', {
+    email,
+    currentPassword,
+    newPassword,
+  });
+};

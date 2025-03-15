@@ -87,3 +87,70 @@ exports.currentUser = async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 };
+exports.currentUser = async (req, res) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: { email: req.user.email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+      },
+    });
+    res.json({ user });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+};
+exports.ChangePassword = async (req, res) => {
+  try {
+    const { email, currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({
+          msg: 'Please provide both current password and new password.',
+        });
+    }
+
+    // ค้นหาผู้ใช้จากอีเมลในฐานข้อมูล
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found.' });
+    }
+
+    // ตรวจสอบว่ารหัสผ่านเดิมถูกต้องหรือไม่
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Current password is incorrect.' });
+    }
+
+    // เข้ารหัสรหัสผ่านใหม่
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // อัพเดตรหัสผ่านใหม่ในฐานข้อมูล
+    await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: hashedPassword, // บันทึกรหัสผ่านที่เข้ารหัส
+      },
+    });
+
+    res.send('Password changed successfully.');
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      msg: 'Server Error',
+    });
+  }
+};

@@ -1,18 +1,16 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import useEcomStore from '../../store/ecom-store';
-import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserchangePassword } from '../../api/Auth';
 
-const Login = () => {
-  const actionLogin = useEcomStore((state) => state.actionLogin);
-  const user = useEcomStore((state) => state.user);
-  const navigate = useNavigate();
+const ChangePassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     email: '',
-    password: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnChange = (e) => {
     setForm({
@@ -23,26 +21,26 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate passwords match
+    if (form.newPassword !== form.confirmPassword) {
+      toast.error('New passwords do not match');
+      return;
+    }
     setIsLoading(true);
+
     try {
-      const res = await actionLogin(form);
-      const role = res.data.payload.role;
-      redirect(role);
-      toast.success('Login successful');
+      await UserchangePassword(
+        form.email,
+        form.currentPassword,
+        form.newPassword
+      );
+      toast.success('Password changed successfully');
     } catch (error) {
-      console.log(error);
-      const errMsg = error.response?.data?.msg || 'Login failed';
-      toast.error(errMsg);
+      console.error(error);
+      toast.error(error.response?.data?.msg || 'Failed to change password');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const redirect = (role) => {
-    if (role === 'admin') {
-      navigate('/admin');
-    } else {
-      navigate(-1);
     }
   };
 
@@ -59,7 +57,7 @@ const Login = () => {
             >
               <path
                 fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                 clipRule="evenodd"
               />
             </svg>
@@ -67,7 +65,7 @@ const Login = () => {
         </div>
 
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8 tracking-wide">
-          Sign In
+          Change Password
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -103,20 +101,12 @@ const Login = () => {
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label
-                htmlFor="password"
-                className="text-sm font-medium text-gray-700 block"
-              >
-                Password
-              </label>
-              <Link
-                to="/change-password"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-all duration-200"
-              >
-                Forgot password?
-              </Link>
-            </div>
+            <label
+              htmlFor="currentPassword"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              Current Password
+            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
@@ -133,9 +123,76 @@ const Login = () => {
                 </svg>
               </div>
               <input
-                id="password"
+                id="currentPassword"
                 type="password"
-                name="password"
+                name="currentPassword"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
+                onChange={handleOnChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="newPassword"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              New Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                id="newPassword"
+                type="password"
+                name="newPassword"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
+                onChange={handleOnChange}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium text-gray-700 block"
+            >
+              Confirm New Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
                 placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
                 onChange={handleOnChange}
@@ -174,23 +231,23 @@ const Login = () => {
                 Processing...
               </div>
             ) : (
-              'Sign in'
+              'Change Password'
             )}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-8">
-          Don't have an account?{' '}
-          <Link
-            to="/register"
+          Remember your password?{' '}
+          <a
+            href="/login"
             className="font-medium text-blue-600 hover:text-blue-500 transition-all duration-200"
           >
-            Create an account
-          </Link>
+            Back to login
+          </a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default ChangePassword;

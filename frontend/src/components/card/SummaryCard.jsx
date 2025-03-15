@@ -1,9 +1,9 @@
 import {
   ShoppingBag,
   Truck,
-  Tag,
   CreditCard,
   MapPin,
+  MapPinPlus,
   Ticket,
 } from 'lucide-react';
 import useEcomStore from '../../store/ecom-store';
@@ -17,54 +17,58 @@ const SummaryCard = () => {
   const carts = useEcomStore((state) => state.carts);
 
   const [products, setProducts] = useState([]);
-  const [carttotal, setCartTotal] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
   const [address, setAddress] = useState('');
-  const [AddressSave, setAddressSave] = useState(false);
+  const [addressSaved, setAddressSaved] = useState(false); // Track if address is saved
+  const [loading, setLoading] = useState(true); // Loading state for cart data
   const navigate = useNavigate();
 
   useEffect(() => {
-    handleGetUserCart(token);
-  }, []);
+    if (token) {
+      handleGetUserCart(token);
+    }
+  }, [token]);
 
   const handleClickPayment = () => {
-    if (!AddressSave) {
+    if (!addressSaved) {
       toast.error('Please save your address');
       return;
     }
     navigate('/user/payment');
   };
 
-  const handleGetUserCart = (token) => {
-    ListUserCart(token)
-      .then((res) => {
-        setProducts(res.data.products);
-        setCartTotal(res.data.cartTotal);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleGetUserCart = async (token) => {
+    setLoading(true);
+    try {
+      const res = await ListUserCart(token);
+      setProducts(res.data.products || []);
+      setCartTotal(res.data.cartTotal || 0);
+    } catch (err) {
+      console.error('Error fetching cart:', err);
+      toast.error('Failed to load cart. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSaveAddress = () => {
-    console.log(address);
+  const handleSaveAddress = async () => {
     if (!address.trim()) {
       toast.warning('Please enter your address');
-      return; // หยุดการทำงานหากไม่มีการป้อนที่อยู่
+      return; // Stop execution if address is empty
     }
-    SaveAddress(token, address)
-      .then((res) => {
-        console.log(res);
-        toast.success('Address saved successfully');
-        setAddressSave(true); // ตั้งค่า AddressSave เป็น true เมื่อบันทึกสำเร็จ
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    try {
+      await SaveAddress(token, address);
+      toast.success('Address saved successfully');
+      setAddressSaved(true); // Mark address as saved after successful save
+    } catch (err) {
+      console.error('Error saving address:', err);
+      toast.error('Failed to save address. Please try again.');
+    }
   };
 
-  // Function to format numbers with commas
   const formatPrice = (price) => {
-    return new Intl.NumberFormat().format(price);
+    return new Intl.NumberFormat('th-TH', { style: 'decimal' }).format(price);
   };
 
   return (
@@ -77,7 +81,7 @@ const SummaryCard = () => {
           </div>
           <span className="font-medium text-gray-700">Cart</span>
         </div>
-        <div className="w-16 h-1 bg-blue-600 rounded-full"></div>
+        <div className="w-16 h-1 bg-blue-600 rounded-full "></div>
         <div className="flex items-center gap-2">
           <div className="bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center">
             <MapPin size={16} className="text-white" />
@@ -93,6 +97,7 @@ const SummaryCard = () => {
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left - Shipping Address */}
         <div className="w-full md:w-1/2">
@@ -117,7 +122,7 @@ const SummaryCard = () => {
               onClick={handleSaveAddress}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transition-all duration-200 font-medium flex items-center justify-center gap-2 w-full"
             >
-              <CreditCard size={18} />
+              <MapPinPlus size={18} />
               <span>Save Address</span>
             </button>
           </div>
@@ -151,14 +156,14 @@ const SummaryCard = () => {
                           </span>
                           <span className="mx-2">×</span>
                           <span className="font-medium">
-                            {formatPrice(item.product.price)}฿
+                            {item.product.price}฿
                           </span>
                         </div>
                       </div>
                     </div>
                     <div>
                       <p className="text-blue-600 font-bold bg-blue-50 px-8 rounded-lg text-sm">
-                        {formatPrice(item.count * item.product.price)}฿
+                        {item.count * item.product.price}฿
                       </p>
                     </div>
                   </div>
@@ -189,16 +194,20 @@ const SummaryCard = () => {
                 <p className="font-bold text-gray-800 text-sm">Total Amount</p>
                 <div className="relative">
                   <p className="text-blue-600 font-bold text-lg">
-                    ฿{formatPrice(carttotal)}
+                    ฿{cartTotal}
                   </p>
                   <div className="absolute -bottom-1 left-0 w-full h-1 bg-blue-600 opacity-20 rounded-full"></div>
                 </div>
               </div>
 
               <button
-                // disabled={!AddressSave}
                 onClick={handleClickPayment}
-                className="mt-4 bg-blue-600 text-white w-full py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                disabled={!addressSaved} // Disable button if address is not saved
+                className={`mt-4 w-full py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 shadow-md transform hover:-translate-y-0.5 transition-all duration-200 ${
+                  addressSaved
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                }`}
               >
                 <CreditCard size={18} />
                 <span>Proceed to Payment</span>
