@@ -28,7 +28,7 @@ const Login = () => {
       const res = await actionLogin(form);
       const role = res.data.payload.role;
       redirect(role);
-      toast.success('Login successful');
+      toast.success('Login successfully');
     } catch (error) {
       console.log(error);
       const errMsg = error.response?.data?.msg || 'Login failed';

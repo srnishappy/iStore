@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Settings,
@@ -8,8 +8,22 @@ import {
   ListCheck,
   Shield,
 } from 'lucide-react';
+import useEcomStore from '../../store/ecom-store';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
+  const logout = useEcomStore((state) => state.logout);
+  const navigate = useNavigate(); // ใช้ navigate เพื่อนำทาง
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    toast.success('Logout successful');
+    navigate('/');
+  };
+
   return (
     <div className="bg-gradient-to-b from-blue-950 to-gray-900 w-64 text-white flex flex-col h-screen">
       {/* Header */}
@@ -23,7 +37,7 @@ const Sidebar = () => {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-3">
         <NavLink
-          to={'/admin'}
+          to="/admin"
           end
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
@@ -38,7 +52,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={'/admin/manage'}
+          to="/admin/manage"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
               isActive
@@ -52,7 +66,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={'/admin/category'}
+          to="/admin/category"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
               isActive
@@ -66,7 +80,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={'/admin/product'}
+          to="/admin/product"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
               isActive
@@ -80,7 +94,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={'/admin/order'}
+          to="/admin/order"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
               isActive
@@ -96,13 +110,16 @@ const Sidebar = () => {
 
       {/* Footer */}
       <div className="p-4 bg-gradient-to-r from-blue-900 to-gray-800 shadow-inner border-t border-blue-800/30">
-        <NavLink
-          to={'/admin'}
-          className="flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 text-red-200 hover:bg-red-500/20 hover:text-white"
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center text-xl font-bold px-4 py-3 text-white-400 hover:bg-red-50 hover:text-red-700 group transition-colors duration-200 cursor-pointer"
         >
-          <LogOut size={22} className="text-red-200" />
+          <LogOut
+            size={23}
+            className="mr-3 group-hover:text-red-600 transition-colors duration-200"
+          />
           <span>Logout</span>
-        </NavLink>
+        </button>
       </div>
     </div>
   );

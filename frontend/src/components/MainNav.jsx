@@ -10,10 +10,12 @@ import {
   X,
   ChevronDown,
   User,
+  UserCog,
   History,
   LogOut,
 } from 'lucide-react';
 import useEcomStore from '../store/ecom-store';
+import { toast } from 'react-toastify';
 
 const MainNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,6 +29,7 @@ const MainNav = () => {
     logout();
     setIsMenuOpen(false);
     setIsDropdownOpen(false);
+    toast.success('Logout successfully');
   };
 
   // Close dropdown when clicking outside
@@ -98,7 +101,7 @@ const MainNav = () => {
                   />
                   <div className="flex flex-col items-start">
                     <span className="font-medium">{user.name || 'User'}</span>
-                    <span className="text-sm text-gray-300">My Account</span>
+                    <span className="text-sm text-gray-300">{user.email}</span>
                   </div>
                   <ChevronDown
                     size={20}
@@ -135,13 +138,26 @@ const MainNav = () => {
                         <User size={18} className="mr-3 text-blue-500" />
                         <span>My Profile</span>
                       </Link> */}
-
                       <Link
                         to="/user/history"
-                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-blue-600 group transition-colors duration-200"
                         onClick={() => setIsDropdownOpen(false)}
                       >
-                        <History size={18} className="mr-3 text-blue-500" />
+                        <UserCog
+                          size={18}
+                          className="mr-3 text-blue-500 group-hover:text-blue-600 transition-colors duration-200"
+                        />
+                        <span>Profile</span>
+                      </Link>
+                      <Link
+                        to="/user/history"
+                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-blue-600 group transition-colors duration-200"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        <History
+                          size={18}
+                          className="mr-3 text-blue-500 group-hover:text-blue-600 transition-colors duration-200"
+                        />
                         <span>Order History</span>
                       </Link>
 
@@ -149,9 +165,12 @@ const MainNav = () => {
 
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-3 text-red-500 hover:bg-red-50 transition-colors duration-200"
+                        className="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-50 hover:text-red-700 group transition-colors duration-200 cursor-pointer"
                       >
-                        <LogOut size={18} className="mr-3" />
+                        <LogOut
+                          size={18}
+                          className="mr-3 group-hover:text-red-600 transition-colors duration-200"
+                        />
                         <span>Logout</span>
                       </button>
                     </div>
