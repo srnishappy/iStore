@@ -37,21 +37,6 @@ const Sidebar = () => {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-3">
         <NavLink
-          to="/admin"
-          end
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${
-              isActive
-                ? 'bg-blue-800/20 text-white shadow-lg border-l-4 border-blue-400'
-                : 'text-blue-100 hover:bg-blue-800/10 hover:text-white hover:translate-x-1'
-            }`
-          }
-        >
-          <LayoutDashboard size={22} className="text-blue-300" />
-          <span>Dashboard</span>
-        </NavLink>
-
-        <NavLink
           to="/admin/manage"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 ${

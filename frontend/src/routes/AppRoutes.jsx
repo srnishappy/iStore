@@ -40,7 +40,7 @@ const AppRoutes = () => {
       path: '/admin',
       element: <ProtectRouteAdmin element={<LayoutAdmin />} />,
       children: [
-        { index: true, element: <Dashboard /> },
+        { index: true, element: <Manage /> },
         { path: 'category', element: <Category /> },
         { path: 'product', element: <Product /> },
         { path: 'product/:id', element: <EditProduct /> },
