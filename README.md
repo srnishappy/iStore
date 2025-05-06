@@ -1,4 +1,4 @@
-# 🛒 Project Setup Guide
+# 🛒 iStore-Project Setup Guide
 
 This README provides step-by-step instructions for setting up and deploying the project. Let's get your project up and running in no time! ✨
 
